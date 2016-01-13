@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
     <head>
         <?php
@@ -12,8 +11,9 @@
         <title>Epreuve</title>
     </head>
     <body>
-        <?php $dt->render("articles");
-        require 'src/view/view.php';
+        <?php
+            $info = $dt->render("articles");
+            require 'src/view/view.php';
         ?>
 
     </body>

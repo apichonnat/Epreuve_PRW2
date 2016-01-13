@@ -22,6 +22,9 @@ class DataGrid
 
     public function render($table)
     {
+        if(!isset($_GET['limitUp']))$_GET['limitUp']= 10;
+        if(!isset($_GET['LimitDown']))$_GET['limitDown'] = 0;
+        if(!isset($_GET['order']))$_GET['order'] ="id";
 
         if(isset($_GET['o']))
         {
@@ -40,29 +43,10 @@ class DataGrid
 
 
         $data = $this->database->getFieldsNames($table);
-        $sql = $this->builder->select()->from('articles')->order($_GET['order'], $_GET['o'])->getSql();
+        $sql = $this->builder->select()->from('articles')->order($_GET['order'], $_GET['o'])->limit($_GET['limitUp'], $_GET['limitDown'])->getSql();
         $result = $this->database->fetch($sql);
-
-
-
-        echo "<table class='table table-bordered'><tr>";
-        echo "<td><a href='index.php?order=".$data[0]."&o=".$_GET['o']."'>".$data[0]."</a></td>";
-        echo "<td><a href='index.php?order=".$data[1]."&o=".$_GET['o']."'>".$data[1]."</a></td>";
-        echo "<td><a href='index.php?order=".$data[2]."&o=".$_GET['o']."'>".$data[2]."</a></td>";
-        echo "<td><a href='index.php?order=".$data[3]."&o=".$_GET['o']."'>".$data[3]."</a></td>";
-        echo "</tr>";
-        foreach ($result as $row)
-        {
-            echo "<tr>";
-            echo "<td>".$row['id']."</td>";
-            echo "<td>".$row['category_id']."</td>";
-            echo "<td>".$row['title']."</td>";
-            echo "<td>".$row['description']."</td>";
-            echo "</tr>";
-        }
-
-        //var_dump($result);
         var_dump($sql);
+        return array("result" => $result, "data" =>$data);
 
     }
 
