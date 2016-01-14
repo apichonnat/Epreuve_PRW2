@@ -25,6 +25,7 @@ class DataGrid
         if(!isset($_GET['limitUp']))$_GET['limitUp']= 10;
         if(!isset($_GET['LimitDown']))$_GET['limitDown'] = 0;
         if(!isset($_GET['order']))$_GET['order'] ="id";
+        var_dump($_GET['limitDown']);
 
         if(isset($_GET['o']))
         {
@@ -43,7 +44,7 @@ class DataGrid
 
 
         $data = $this->database->getFieldsNames($table);
-        $sql = $this->builder->select()->from('articles')->order($_GET['order'], $_GET['o'])->limit($_GET['limitUp'], $_GET['limitDown'])->getSql();
+        $sql = $this->builder->select()->from('articles')->order($_GET['order'], $_GET['o'])->limit($_GET['limitDown'], $_GET['limitUp'])->getSql();
         $result = $this->database->fetch($sql);
         var_dump($sql);
         return array("result" => $result, "data" =>$data);

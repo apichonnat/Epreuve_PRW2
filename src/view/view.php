@@ -6,7 +6,8 @@
     </head>
     <body>
         <form action="index.php" method="GET">
-            <select name="LimitDown" onchange="submit();">
+            <select name="limitUp" onchange="submit();">
+                <option value="10" selected>-
                 <option value="10">10
                 <option value="20">20
                 <option>50
