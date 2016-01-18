@@ -12,7 +12,9 @@
     </head>
     <body>
         <?php
+            $p = $dt->pagination("articles");
             $info = $dt->render("articles");
+
             require 'src/view/view.php';
         ?>
 
