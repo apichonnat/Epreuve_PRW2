@@ -25,7 +25,7 @@ class DataGrid
         var_dump($table);
         $this->builder = new QueryBuilder();
         $sql1 = $this->builder->select('count(id) as nbarticle')->from($table)->getSql();
-        //var_dump($sql1);
+        var_dump($sql1);
         $resultat = $this->database->fetch($sql1);
         $nbArt = $resultat[0]['nbarticle'];
 
@@ -40,8 +40,6 @@ class DataGrid
             $this->cPage = 1;
         }
         //var_dump($nbArt);
-
-
         $nbPage = ceil($nbArt/$this->perPage);
 
         return $nbPage;
@@ -51,8 +49,6 @@ class DataGrid
 
     public function render($table)
     {
-
-
         if(!isset($_GET['order']))$_GET['order'] = "id";
         //var_dump($_GET['order']);
 
@@ -72,7 +68,6 @@ class DataGrid
             $_GET['o']= "ASC";
         }
 
-
         $this->builder = new QueryBuilder();
         $data = $this->database->getFieldsNames($table);
         var_dump($data);
@@ -80,13 +75,19 @@ class DataGrid
         $sql = $this->builder->select()->from($table)->order($_GET['order'], $_GET['o'])->limit(($this->cPage-1)*$this->perPage, $this->perPage)->getSql();
         $result = $this->database->fetch($sql);
 
-
-
         var_dump($sql);
-        var_dump($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+
+        var_dump($_SERVER['REQUEST_URI']);
+        $this->ParseURL();
         unset($this->builder);
         return array("result" => $result, "data" =>$data);
+    }
 
+    public function ParseURL()
+    {
+        $file = explode('?', $_SERVER['REQUEST_URI']);
+        $file = explode('&', $file[1]);
+        var_dump($file);
     }
 
 
