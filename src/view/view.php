@@ -12,6 +12,7 @@
         {
             echo "<td><a href='index.php?order=".$name."&sort=".$_GET['sort']."'>".$config['champ_title'][$name]."</a></td>";
         }
+        echo "<td><a href='index.php?new=article'>New</a></td>";
         echo "</tr><tr>";
         echo "<form class= action='index.php' method='get'>";
         for ($i=0; $i < count($info["data"]); $i++)
@@ -29,6 +30,7 @@
             {
                 echo "<td>".$name."</td>";
             }
+            echo "<td><a href='index.php?del=".$row['id']."'>Delete</a><br><a href='index.php?upd=".$row['id']."'>Update</a></td>";
             echo "</tr>";
         }
 

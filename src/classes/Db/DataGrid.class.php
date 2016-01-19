@@ -24,10 +24,11 @@ class DataGrid
     {
         //var_dump($table);
         $this->builder = new QueryBuilder();
-        $sql1 = $this->builder->select('count(id) as nbarticle')->from($table)->getSql();
+        //$sql1 = $this->builder->select('count(id) as nbarticle')->from($table)->getSql();
         //var_dump($sql1);
-        $resultat = $this->database->fetch($sql1);
-        $nbArt = $resultat[0]['nbarticle'];
+        $resultat = $this->database->fetch($table);
+        //$nbArt = $resultat[0]['nbarticle'];
+        $nbArt = count($resultat);
 
         $this->perPage = 10; //$perPAge = $_GET['perPage'];
 
@@ -87,7 +88,9 @@ class DataGrid
                 }
             }
         }
-        $p = $this->pagination("articles");
+        //$p = $this->pagination("articles");
+        $sqlpag = $sql->GetSQL();
+        $p = $this->pagination($sqlpag);
         $sql = $sql->limit(($this->cPage-1)*$this->perPage, $this->perPage);
 
         $sql = $sql->GetSQL();

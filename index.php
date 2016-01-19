@@ -12,13 +12,9 @@
     </head>
     <body>
         <?php
-
-            //$p = $dt->pagination("articles");
             $info = $dt->render("articles");
             $order_url = $dt->ParseURL();
-            //var_dump($order_url);
             require 'src/view/view.php';
         ?>
-
     </body>
 </html>
