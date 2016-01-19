@@ -125,8 +125,8 @@ class QueryBuilder
 
 		$primaryKey = $this->_db->getPK($tableName);
 		$sql = "DELETE FROM ".$tableName." WHERE ".$primaryKey." = '".$id."'";
-		echo $sql;
-		//return $sql;
+		//echo $sql;
+		return $sql;
 	}
 }
 ?>
