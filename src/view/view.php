@@ -1,7 +1,7 @@
 
 
         <?php
-        for ($i=1; $i <=$p ; $i++)
+        for ($i=1; $i <=$info["p"] ; $i++)
         {
             if ($order_url != null)echo "<a href=index.php?p=$i&".$order_url."> $i </a>/";
             else echo "<a href=index.php?p=$i> $i </a>/";

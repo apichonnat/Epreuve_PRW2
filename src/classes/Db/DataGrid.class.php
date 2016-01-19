@@ -73,7 +73,7 @@ class DataGrid
         //var_dump($data);
         //var_dump($this->perPage);
 
-        $sql = $this->builder->select()->from($table)->order($_GET['order'], $_GET['sort'])->limit(($this->cPage-1)*$this->perPage, $this->perPage);
+        $sql = $this->builder->select()->from($table)->order($_GET['order'], $_GET['sort']);
 
         if (isset($_GET["search"]))
         {
@@ -89,12 +89,15 @@ class DataGrid
 
             }
         }
+        $p = $this->pagination("articles");
+        $sql = $sql->limit(($this->cPage-1)*$this->perPage, $this->perPage);
+
 
         $sql = $sql->GetSQL();
         $result = $this->database->fetch($sql);
         var_dump($sql);
         unset($this->builder);
-        return array("result" => $result, "data" =>$data);
+        return array("result" => $result, "data" =>$data, "p" => $p);
     }
 
     public function ParseURL()

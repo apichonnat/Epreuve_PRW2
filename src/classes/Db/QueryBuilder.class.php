@@ -33,6 +33,7 @@ class QueryBuilder
         return $this;
     }
 
+
 	public function order($by, $order='ASC'){
 		$this->_query["order"][] = $by.' '.$order;
         return $this;
