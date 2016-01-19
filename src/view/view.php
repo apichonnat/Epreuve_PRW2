@@ -1,23 +1,25 @@
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-    </head>
-    <body>
 
         <?php
         for ($i=1; $i <=$p ; $i++)
         {
-
-            echo "<a href=index.php?p=$i&> $i </a>/";
+            if ($order_url != null)echo "<a href=index.php?p=$i&".$order_url."> $i </a>/";
+            else echo "<a href=index.php?p=$i> $i </a>/";
         }
-        echo "<table class='table table-bordered'><tr>";
 
+        echo "<table class='table table-bordered table-data'><tr>";
         foreach ($info["data"] as $name)
         {
-            echo "<td><a href='index.php?order=".$name."&o=".$_GET['o']."'>".$name."</a></td>";
+            echo "<td><a href='index.php?order=".$name."&sort=".$_GET['sort']."'>".$name."</a></td>";
         }
+        echo "</tr><tr>";
+        echo "<form class= action='index.php' method='get'>";
+        for ($i=0; $i < count($info["data"]); $i++)
+        {
+            echo "<td><input class='search' type='text' name=search[".$info["data"][$i]."]></td>";
+        }
+        echo "<td><input class='button' value='Search' type='submit'</td>";
+        echo "</form>";
         echo "</tr>";
 
         foreach ($info["result"] as $row)
@@ -31,5 +33,3 @@
         }
 
         ?>
-    </body>
-</html>

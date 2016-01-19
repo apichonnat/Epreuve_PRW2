@@ -1,10 +1,5 @@
+.table-data .search{
 
-table{
-    width: 100%;
-    border:1px solid black
-}
+    max-width: 150px;
 
-td{
-    width: auto;
-    border: 1px solid black
 }
