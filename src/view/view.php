@@ -19,7 +19,7 @@
         {
             echo "<td><input class='search' type='text' name=search[".$info["data"][$i]."]></td>";
         }
-        echo "<td><input class='button' value='Search' type='submit'</td>";
+        echo "<td><input class='button' value='Search' type='submit'></td>";
         echo "</form>";
         echo "</tr>";
 
@@ -30,7 +30,7 @@
             {
                 echo "<td>".$name."</td>";
             }
-            echo "<td><a href='index.php?del=".$row['id']."'>Delete</a><br><a href='index.php?upd=".$row['id']."'>Update</a></td>";
+            echo "<td><a href='index.php?del=".$row[DB_ID_NAME]."'>Delete</a><br><a href='index.php?upd=".$row[DB_ID_NAME]."'>Update</a></td>";
             echo "</tr>";
         }
 

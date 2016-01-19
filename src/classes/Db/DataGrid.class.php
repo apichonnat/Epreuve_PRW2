@@ -11,9 +11,11 @@ class DataGrid
     private $perPage;
     private $cPage;
 
+    private $champ;
+
     function __construct($config)
     {
-        if(count($config["db"]) != 4)
+        if(count($config["db"]) < 4)
         {
 			throw new \Exception("Le nombre d'arguments n'est pas valable!");
 		}
@@ -29,10 +31,10 @@ class DataGrid
         $resultat = $this->database->fetch($table);
         //$nbArt = $resultat[0]['nbarticle'];
         $nbArt = count($resultat);
-
         $this->perPage = 10; //$perPAge = $_GET['perPage'];
 
-        if (isset($_GET['p']) && $_GET['p'] > 0 && $_GET['p'] <= $this->perPage)
+        $nbPage = ceil($nbArt/$this->perPage);
+        if (isset($_GET['p']) && $_GET['p'] > 0 && $_GET['p'] <= $nbPage)
         {
             $this->cPage = $_GET['p'];
         }
@@ -40,17 +42,19 @@ class DataGrid
         {
             $this->cPage = 1;
         }
-        //var_dump($nbArt);
-        $nbPage = ceil($nbArt/$this->perPage);
-
         return $nbPage;
+    }
 
+    public function nameChampbyTable($table)
+    {
+        $this->builder = new QueryBuilder();
+        return $this->database->getFieldsNames($table);
     }
 
 
     public function render($table)
     {
-        if(!isset($_GET['order']))$_GET['order'] = "id";
+        if(!isset($_GET['order']))$_GET['order'] = DB_ID_NAME;
         //var_dump($_GET['order']);
 
         if(isset($_GET['sort']))
@@ -69,8 +73,9 @@ class DataGrid
             $_GET['sort']= "ASC";
         }
 
+        $data = $this->nameChampbyTable($table);
+
         $this->builder = new QueryBuilder();
-        $data = $this->database->getFieldsNames($table);
         //var_dump($data);
         //var_dump($this->perPage);
         $sql = $this->builder->select()->from($table)->order($_GET['order'], $_GET['sort']);
@@ -97,7 +102,7 @@ class DataGrid
         $result = $this->database->fetch($sql);
         var_dump($sql);
         unset($this->builder);
-        return array("result" => $result, "data" =>$data, "p" => $p);
+        return array("result" => $result, "data" => $data, "p" => $p);
     }
 
     public function ParseURL()
@@ -117,5 +122,28 @@ class DataGrid
         }
 
     }
+
+    public function crud()
+    {
+        $this->builder = new QueryBuilder($this->database);
+        if (isset($_GET['del']))
+        {
+            $sql = $this->builder->delete('articles', $_GET['del']);
+            var_dump($sql);
+            $this->database->query($sql);
+            return "view.php";
+        }
+        if (isset($_GET['upd']))
+        {
+            return "viewUpdate.php";
+        }
+        if (isset($_GET['new']))
+        {
+            return "viewNew.php";
+        }
+
+        return "view.php";
+    }
+
 }
  ?>

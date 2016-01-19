@@ -12,9 +12,10 @@
     </head>
     <body>
         <?php
-            $info = $dt->render("articles");
+            $info = $dt->render($config['db']['table']);
             $order_url = $dt->ParseURL();
-            require 'src/view/view.php';
+            require("src/view/".$dt->crud());
+            //require 'src/view/view.php';
         ?>
     </body>
 </html>

@@ -12,7 +12,7 @@ abstract class ConnectDB implements iConnect
 	public function __construct($args)
 	{
 		//if(func_num_args() != 4){
-		if(count($args) != 4){
+		if(count($args) < 4){
 			throw new \Exception("Le nombre d'arguments n'est pas valable!");
 		}
 
