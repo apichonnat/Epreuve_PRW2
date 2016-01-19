@@ -74,27 +74,23 @@ class DataGrid
         //var_dump($this->perPage);
 
         $sql = $this->builder->select()->from($table)->order($_GET['order'], $_GET['sort'])->limit(($this->cPage-1)*$this->perPage, $this->perPage);
-        var_dump($_GET["search"]);
+
         if (isset($_GET["search"]))
         {
             foreach ($_GET["search"] as $key => $value)
             {
-                print_r($key."==>".$value);
+                if ($value!='')
+                {
+                    //$key = substr($key, 1, -1);
+                    //var_dump($key);
+                    $arg = $key." LIKE '%".$value."%'";
+                    $sql = $sql->where($arg);
+                }
+
             }
         }
 
-
-
         $sql = $sql->GetSQL();
-        var_dump($sql);
-
-
-
-
-
-
-
-
         $result = $this->database->fetch($sql);
         var_dump($sql);
         unset($this->builder);
