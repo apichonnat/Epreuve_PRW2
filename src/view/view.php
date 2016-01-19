@@ -10,7 +10,7 @@
         echo "<table class='table table-bordered table-data'><tr>";
         foreach ($info["data"] as $name)
         {
-            echo "<td><a href='index.php?order=".$name."&sort=".$_GET['sort']."'>".$name."</a></td>";
+            echo "<td><a href='index.php?order=".$name."&sort=".$_GET['sort']."'>".$config['champ_title'][$name]."</a></td>";
         }
         echo "</tr><tr>";
         echo "<form class= action='index.php' method='get'>";

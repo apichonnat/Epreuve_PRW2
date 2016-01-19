@@ -29,7 +29,7 @@ class DataGrid
         $resultat = $this->database->fetch($sql1);
         $nbArt = $resultat[0]['nbarticle'];
 
-        $this->perPage = 4; //$perPAge = $_GET['perPage'];
+        $this->perPage = 10; //$perPAge = $_GET['perPage'];
 
         if (isset($_GET['p']) && $_GET['p'] > 0 && $_GET['p'] <= $this->perPage)
         {
@@ -72,7 +72,6 @@ class DataGrid
         $data = $this->database->getFieldsNames($table);
         //var_dump($data);
         //var_dump($this->perPage);
-
         $sql = $this->builder->select()->from($table)->order($_GET['order'], $_GET['sort']);
 
         if (isset($_GET["search"]))
@@ -86,12 +85,10 @@ class DataGrid
                     $arg = $key." LIKE '%".$value."%'";
                     $sql = $sql->where($arg);
                 }
-
             }
         }
         $p = $this->pagination("articles");
         $sql = $sql->limit(($this->cPage-1)*$this->perPage, $this->perPage);
-
 
         $sql = $sql->GetSQL();
         $result = $this->database->fetch($sql);
