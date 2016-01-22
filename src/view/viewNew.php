@@ -1,22 +1,18 @@
 <form class="form" action="" method="get">
-    <table class='table table-bordered table-data'>
-        <tr>
+    <table class='table table-bordered table-new'>
         <?php
             $nbchamp = 0;
             $value = $dt->nameChampbyTable($config['db']['table']);
-            foreach($value as $row)
+            for ($i=1; $i < count($value); $i++)
+            //foreach($value as $row)
             {
-                echo "<td>".$config['champ_title'][$row]."</td>";
-                $nbchamp++;
+                echo "<tr>";
+                echo "<td>".$config['champ_title'][$value[$i]]."</td>";
+                echo "<td><input class='new' type='text' name='insert".$value[$i]."'></td>";
+                echo "</tr>";
             }
-            echo "<td><input class='button' value='Insert' type='submit'></td></tr><tr>";
-
-            for ($i=0; $i <= $nbchamp ; $i++)
-            {
-                echo "<td><input class='search' type='text' name='' value=''></td>";
-            }
-
+            echo "<tr><td><input class='button' value='Insert' type='submit'></td></tr>";
         ?>
-        </tr>
+
     </table>
 </form>

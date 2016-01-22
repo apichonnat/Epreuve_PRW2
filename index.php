@@ -14,6 +14,7 @@
         <?php
             $info = $dt->render($config['db']['table']);
             $order_url = $dt->ParseURL();
+            $dt->newdata($config['db']['table']);
             require("src/view/".$dt->crud());
             //require 'src/view/view.php';
         ?>

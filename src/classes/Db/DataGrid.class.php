@@ -110,15 +110,26 @@ class DataGrid
         $file = explode('?', $_SERVER['REQUEST_URI']);
         if (isset($file[1]))
         {
+            $result = "";
             if (preg_match('#sort#', $file[1]))
             {
                 $data = explode('&', $file[1]);
                 if (preg_match('#p=[0-9]+#', $file[1]))
                 {
-                    return $data[1]."&".$data[2];
+                    $result = $data[1]."&".$data[2];
                 }
-                return $data[0]."&".$data[1];
+                $result = $data[0]."&".$data[1];
             }
+
+            if (preg_match('#search#', $file[1]))
+            {
+                $data = explode('&', $file[1]);
+                for ($i=3; $i < count($data); $i++)
+                {
+                    $result .= $data[$i];
+                }
+            }
+            return $result;
         }
 
     }
@@ -128,7 +139,7 @@ class DataGrid
         $this->builder = new QueryBuilder($this->database);
         if (isset($_GET['del']))
         {
-            $sql = $this->builder->delete('articles', $_GET['del']);
+            $sql = $this->builder->delete($config['db']['table'], $_GET['del']);
             var_dump($sql);
             $this->database->query($sql);
             return "view.php";
@@ -143,6 +154,42 @@ class DataGrid
         }
 
         return "view.php";
+    }
+
+
+
+    public function newdata($table)
+    {
+        if (!isset($_GET['insertcategory_id']))return;
+        $builder = new QueryBuilder($this->database);
+
+        $value = $this->nameChampbyTable($table);
+        var_dump($value);
+        for ($i=1; $i < count($value) ; $i++)
+        //foreach ($value as $row)
+        {
+            if (@$_GET["insert".$value[$i]]!='')
+            {
+
+                $datainsert[$value[$i]]=$_GET["insert".$value[$i]];
+            }
+        }
+        var_dump($datainsert);
+        $sql = $builder->insert($table, $datainsert);
+        $this->database->query($sql);
+
+        var_dump($sql);
+
+
+
+        //$this->builder = new QueryBuilder($this->database);
+
+        //$sql = $this->builder->insert($config['db']['table'], )
+
+
+
+
+        return;
     }
 
 }

@@ -3,3 +3,11 @@
     max-width: 150px;
 
 }
+
+.table-new{
+    width: 50%;
+}
+
+.table-new .new{
+    width: 100%;
+}
