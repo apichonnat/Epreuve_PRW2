@@ -24,12 +24,8 @@ class DataGrid
 
     public function pagination($table)
     {
-        //var_dump($table);
         $this->builder = new QueryBuilder();
-        //$sql1 = $this->builder->select('count(id) as nbarticle')->from($table)->getSql();
-        //var_dump($sql1);
         $resultat = $this->database->fetch($table);
-        //$nbArt = $resultat[0]['nbarticle'];
         $nbArt = count($resultat);
         $this->perPage = 10; //$perPAge = $_GET['perPage'];
 
@@ -76,8 +72,7 @@ class DataGrid
         $data = $this->nameChampbyTable($table);
 
         $this->builder = new QueryBuilder();
-        //var_dump($data);
-        //var_dump($this->perPage);
+
         $sql = $this->builder->select()->from($table)->order($_GET['order'], $_GET['sort']);
 
         if (isset($_GET["search"]))
@@ -86,18 +81,14 @@ class DataGrid
             {
                 if ($value!='')
                 {
-                    //$key = substr($key, 1, -1);
-                    //var_dump($key);
                     $arg = $key." LIKE '%".$value."%'";
                     $sql = $sql->where($arg);
                 }
             }
         }
-        //$p = $this->pagination("articles");
         $sqlpag = $sql->GetSQL();
         $p = $this->pagination($sqlpag);
         $sql = $sql->limit(($this->cPage-1)*$this->perPage, $this->perPage);
-
         $sql = $sql->GetSQL();
         $result = $this->database->fetch($sql);
         var_dump($sql);
@@ -134,12 +125,12 @@ class DataGrid
 
     }
 
-    public function crud()
+    public function crud($table)
     {
         $this->builder = new QueryBuilder($this->database);
         if (isset($_GET['del']))
         {
-            $sql = $this->builder->delete($config['db']['table'], $_GET['del']);
+            $sql = $this->builder->delete($table, $_GET['del']);
             var_dump($sql);
             $this->database->query($sql);
             return "view.php";
@@ -152,11 +143,8 @@ class DataGrid
         {
             return "viewNew.php";
         }
-
         return "view.php";
     }
-
-
 
     public function newdata($table)
     {
@@ -164,31 +152,16 @@ class DataGrid
         $builder = new QueryBuilder($this->database);
 
         $value = $this->nameChampbyTable($table);
-        var_dump($value);
+
         for ($i=1; $i < count($value) ; $i++)
-        //foreach ($value as $row)
         {
             if (@$_GET["insert".$value[$i]]!='')
             {
-
                 $datainsert[$value[$i]]=$_GET["insert".$value[$i]];
             }
         }
-        var_dump($datainsert);
         $sql = $builder->insert($table, $datainsert);
         $this->database->query($sql);
-
-        var_dump($sql);
-
-
-
-        //$this->builder = new QueryBuilder($this->database);
-
-        //$sql = $this->builder->insert($config['db']['table'], )
-
-
-
-
         return;
     }
 

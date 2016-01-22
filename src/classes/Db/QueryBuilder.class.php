@@ -113,7 +113,7 @@ class QueryBuilder
 			}
 		}
 		$sql = "INSERT INTO ".$tableName." (".implode(", ", array_keys($values)).") VALUES ('".implode("', '", $values)."')";
-		echo $sql;
+		return $sql;
 	}
 
 	public function delete($tableName, $id)
@@ -126,7 +126,7 @@ class QueryBuilder
 		$primaryKey = $this->_db->getPK($tableName);
 		$sql = "DELETE FROM ".$tableName." WHERE ".$primaryKey." = '".$id."'";
 		echo $sql;
-		//return $sql;
+		return $sql;
 	}
 }
 ?>
