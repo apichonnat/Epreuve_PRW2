@@ -12,6 +12,7 @@
     </head>
     <body>
         <?php
+
             $info = $dt->render($config['db']['table']);
             $order_url = $dt->ParseURL();
             $dt->newdata($config['db']['table']);

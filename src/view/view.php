@@ -6,7 +6,7 @@
         <a href="index.php?p=1" aria-label="Previous"><span aria-hidden="true">Première page</span></a>
     </li>
 <?php
-    
+
     for ($i=1; $i <=$info["p"] ; $i++)
     {
         if ($order_url != null)echo "<li><a href=index.php?p=$i&".$order_url."> $i </a></li>";

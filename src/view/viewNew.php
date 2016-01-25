@@ -1,6 +1,9 @@
 <form class="form" action="" method="get">
     <table class='table table-bordered table-new'>
-        <tr><td><a href="index.php">Retour</a></td></tr>
+        <tr>
+            <td><a href="index.php">Retour</a></td>
+            <td>New element</td>
+        </tr>
         <?php
             $nbchamp = 0;
             $value = $dt->nameChampbyTable($config['db']['table']);
