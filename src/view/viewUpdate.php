@@ -1,4 +1,4 @@
-<form class="form" action="index.php" method="post">
+<form class="form" action="" method="post">
     <table class='table table-bordered table-new'>
         <tr>
             <td><a href="index.php">Retour</a></td>
