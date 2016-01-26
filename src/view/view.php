@@ -25,7 +25,8 @@
     {
         echo "<td><a href='index.php?order=".$name."&sort=".$_GET['sort']."'>".$config['champ_title'][$name]."</a></td>";
     }
-    echo "<td><a href='index.php?new=article'>New</a></td>";
+
+    echo "<td><a href='index.php?new=article'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></a></td>";
     echo "</tr><tr>";
     echo "<form class= action='index.php' method='get'>";
     for ($i=0; $i < count($info["data"]); $i++)
@@ -43,7 +44,8 @@
         {
             echo "<td>".$name."</td>";
         }
-        echo "<td><a href='index.php?del=".$row[DB_ID_NAME]."'>Delete</a><br><a href='index.php?upd=".$row[DB_ID_NAME]."'>Update</a></td>";
+        echo "<td><a href='index.php?del=".$row[DB_ID_NAME]."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a><br><br>
+        <a href='index.php?upd=".$row[DB_ID_NAME]."'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a></td>";
         echo "</tr>";
     }
 

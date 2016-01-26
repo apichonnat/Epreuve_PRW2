@@ -6,6 +6,7 @@
         $dt = new Db\DataGrid($config);
         ?>
         <link href="css/bootstrap.min.css" rel="stylesheet">
+
         <link href="css/style.css" rel="stylesheet">
         <meta charset="utf-8">
         <title>Epreuve</title>
@@ -15,6 +16,7 @@
 
             $info = $dt->render($config['db']['table']);
             $order_url = $dt->ParseURL();
+            $dt->UpdateData($config['db']['table']);
             $dt->newdata($config['db']['table']);
             require("src/view/".$dt->crud($config['db']['table']));
         ?>

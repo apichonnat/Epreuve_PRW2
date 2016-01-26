@@ -10,7 +10,7 @@ class DataGrid
     private $builder;
     private $perPage;
     private $cPage;
-
+    public $str_update;
     private $champ;
 
     function __construct($config)
@@ -51,8 +51,6 @@ class DataGrid
     public function render($table)
     {
         if(!isset($_GET['order']))$_GET['order'] = DB_ID_NAME;
-        //var_dump($_GET['order']);
-
         if(isset($_GET['sort']))
         {
             if ($_GET['sort']=="ASC")
@@ -81,7 +79,7 @@ class DataGrid
             {
                 if ($value!='')
                 {
-                    $arg = $key." LIKE '%".$value."%'";
+                    $arg = $key." LIKE '%".addslashes($value)."%'";
                     $sql = $sql->where($arg);
                 }
             }
@@ -91,7 +89,7 @@ class DataGrid
         $sql = $sql->limit(($this->cPage-1)*$this->perPage, $this->perPage);
         $sql = $sql->GetSQL();
         $result = $this->database->fetch($sql);
-        var_dump($sql);
+        //var_dump($sql);
         unset($this->builder);
         return array("result" => $result, "data" => $data, "p" => $p);
     }
@@ -131,12 +129,12 @@ class DataGrid
         if (isset($_GET['del']))
         {
             $sql = $this->builder->delete($table, $_GET['del']);
-            var_dump($sql);
             $this->database->query($sql);
             return "view.php";
         }
         if (isset($_GET['upd']))
         {
+            $this->str_update = $this->getDataById($table, $_GET['upd']);
             return "viewUpdate.php";
         }
         if (isset($_GET['new']))
@@ -148,22 +146,59 @@ class DataGrid
 
     public function newdata($table)
     {
-        if (!isset($_GET['insertcategory_id']))return;
+        $value = $this->nameChampbyTable($table);
+        if (!isset($_GET['insert'.$value[1]]))return;
+        $set = false;
+        for($i=1; $i < count($value) ; $i++)
+        {
+            if ($_GET['insert'.$value[$i]]=='')$set = true;
+        }
+        if ($set)
+        {
+            ?><script type="text/javascript"> alert("tous les champs doivent être rempli !!!!!!!"); </script><?php
+            return;
+        }
         $builder = new QueryBuilder($this->database);
 
-        $value = $this->nameChampbyTable($table);
 
         for ($i=1; $i < count($value) ; $i++)
         {
-            if (@$_GET["insert".$value[$i]]!='')
-            {
-                $datainsert[$value[$i]]=$_GET["insert".$value[$i]];
-            }
+                $datainsert[$value[$i]]=addslashes($_GET["insert".$value[$i]]);
         }
         $sql = $builder->insert($table, $datainsert);
         $this->database->query($sql);
         return;
     }
+
+    public function getDataById($table, $id)
+    {
+        $builder = new QueryBuilder();
+        $sql = $builder->select()->from($table)->where(DB_ID_NAME.' = '.$id)->GetSQL();
+        $result = $this->database->fetch($sql);
+        return $result;
+
+    }
+
+    public function UpdateData($table)
+    {
+        $value = $this->nameChampbyTable($table);
+
+        if (!isset($_POST['update'.$value[2]]))return;
+        $this->builder = new QueryBuilder($this->database);
+
+        for ($i=1 ; $i < count($value) ; $i++)
+        {
+            $attribu[$value[$i]] = addslashes($_POST["update".$value[$i]]);
+        }
+
+        $sql = $this->builder->update($table, $_POST ['updateid'], $attribu);
+
+        $this->database->query($sql);
+        print_r($sql);
+        return;
+
+    }
+
 
 }
  ?>

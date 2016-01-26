@@ -93,7 +93,7 @@ class QueryBuilder
 			}
 		}
 		$sql = "UPDATE ".$tableName." SET ".implode(", ", $lines). " WHERE ".$primaryKey."='".$id."'";
-		echo $sql;
+		return $sql;
 	}
 
 	public function insert($tableName, $attributes)

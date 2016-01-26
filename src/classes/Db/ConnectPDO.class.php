@@ -104,5 +104,7 @@ final class ConnectPDO extends ConnectDB
 		}
 		return $notNullFields;
 	}
+
+
 }
 ?>
